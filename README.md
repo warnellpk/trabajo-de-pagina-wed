@@ -1,10 +1,10 @@
 # trabajo-de-pagina-wed
-#📌 Contexto
+##📌 Contexto
 
 En RD no existe un canal único y transparente para reportar problemas como apagones, basura, fugas de agua o inseguridad.
 MiVozRD surge como solución para centralizar denuncias y mejorar la respuesta institucional.
 ---
-#🎯 Objetivo del Proyecto
+##🎯 Objetivo del Proyecto
 
 Crear un sistema centralizado que permita:
 
@@ -19,7 +19,7 @@ Interacción ciudadana (comentarios, me gusta).
 Panel administrativo con analíticas.
 ---
 
-#🧩 Usuarios
+##🧩 Usuarios
 
 Ciudadanos: reportan y dan seguimiento.
 
@@ -28,7 +28,7 @@ Instituciones: reciben casos relacionados.
 Administradores: validan, moderan y gestionan el flujo de reportes.
 ---
 
-#⚙️ Funcionalidades Principales
+##⚙️ Funcionalidades Principales
 Plataforma Ciudadana
 
 Registro/Login (Google, Apple, Email).
@@ -50,7 +50,7 @@ Moderación de usuarios y contenido.
 Estadísticas por zona, categoría y tendencia.
 ---
 
-#🛠️ Tecnologías Sugeridas
+##🛠️ Tecnologías Sugeridas
 
 Frontend: React / Next.js + Tailwind
 
@@ -65,7 +65,7 @@ Hosting: AWS / DigitalOcean
 Autenticación: OAuth2 (Google/Apple)
 ---
 
-#🚀 Fases de Desarrollo
+##🚀 Fases de Desarrollo
 
 MVP: Web responsive + reportes básicos + panel admin
 
@@ -74,7 +74,7 @@ Integración institucional: APIs + dashboards
 Escalabilidad nacional: App móvil, IA, notificaciones push
 ---
 
-#📈 Impacto Esperado
+##📈 Impacto Esperado
 
 Más participación ciudadana
 
@@ -85,6 +85,6 @@ Mejor respuesta institucional
 Reducción de denuncias duplicadas
 ---
 
-#🏁 Conclusión
+##🏁 Conclusión
 
 MiVozRD busca convertirse en el puente digital entre ciudadanos e instituciones en República Dominicana, promoviendo una gestión pública más eficiente y transparente.
