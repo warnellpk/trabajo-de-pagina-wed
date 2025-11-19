@@ -50,7 +50,7 @@ Moderación de usuarios y contenido.
 Estadísticas por zona, categoría y tendencia.
 ---
 
-##🛠️ Tecnologías Sugeridas
+## 🛠️ Tecnologías Sugeridas
 
 Frontend: React / Next.js + Tailwind
 
