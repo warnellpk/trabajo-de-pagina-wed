@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa RD Limitado - Web</title>
+    
+    <!-- Librerías de Highcharts (Siempre la última versión para soportar mapView) -->
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/mapdata/countries/do/do-all.js"></script>
+
+    <style>
+        /* ESTILOS (Sin cambios, manteniendo tu diseño) */
+        body, html { height: 100%; margin: 0; font-family: 'Segoe UI', Arial, sans-serif; overflow: hidden; }
+
+        #container { display: flex; height: 100vh; width: 100vw; }
+
+        #map-container {
+            flex: 3;
+            background-color: #87CEEB; /* Fondo Mar Azul Celeste */
+            position: relative;
+        }
+
+        #sidebar {
+            flex: 1;
+            min-width: 320px;
+            background: white;
+            box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        /* Tipografías Sidebar */
+        .provincia-titulo { font-size: 26px; color: #0d47a1; font-weight: 800; margin: 0 0 5px 0; text-transform: uppercase; }
+        .region-badge { display: inline-block; background-color: #fdd835; color: #212121; padding: 6px 12px; border-radius: 4px; font-size: 14px; font-weight: 700; margin-bottom: 25px; }
+
+        /* Botones Sidebar */
+        .btn-action {
+            display: block; width: 100%; padding: 16px; margin-bottom: 12px;
+            background-color: #f8f9fa; border: 1px solid #ced4da; border-radius: 8px;
+            font-size: 16px; text-align: left; cursor: pointer; transition: 0.2s; color: #495057; font-weight: 500;
+        }
+        .btn-action:hover { background-color: #e3f2fd; border-color: #2196f3; color: #0d47a1; transform: translateX(5px); }
+
+        /* Utilidades */
+        .hidden { display: none; }
+        .placeholder { text-align: center; color: #90a4ae; margin-top: 50%; }
+        .placeholder h2 { font-size: 40px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div id="map-container"></div>
+    
+    <!-- MENÚ LATERAL -->
+    <div id="sidebar">
+        <div id="state-empty" class="placeholder">
+            <h2>🔎</h2>
+            <h3>Seleccione una Provincia</h3>
+            <p>Use el ratón o los dedos para mover el mapa.</p>
+        </div>
+
+        <div id="state-selected" class="hidden">
+            <h1 id="lbl-provincia" class="provincia-titulo">PROVINCIA</h1>
+            <span id="lbl-region" class="region-badge">REGIÓN</span>
+
+            <p style="border-bottom:1px solid #eee; padding-bottom:5px; color:#666;">Acciones:</p>
+            <button class="btn-action" onclick="navegar('reportes')">📊 Ver Reportes</button>
+            <button class="btn-action" onclick="navegar('empleados')">👷 Empleados</button>
+            <button class="btn-action" onclick="navegar('logistica')">🚛 Logística</button>
+            <button class="btn-action" onclick="navegar('exportar')">📥 Descargar PDF</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* 1. LÓGICA DE DATOS (AUTO-GENERACIÓN PARA EVITAR HUECOS) */
+    const mapaGeo = Highcharts.maps['countries/do/do-all'];
+    const dataProvincias = mapaGeo.features.map(f => ({
+        'hc-key': f.properties['hc-key'],
+        name: f.properties['name']
+    }));
+
+    /* 2. CONFIGURACIÓN MAPA */
+    Highcharts.mapChart('map-container', {
+        chart: {
+            backgroundColor: '#87CEEB', // Mar
+            map: 'countries/do/do-all',
+            // Desactiva el botón de reseteo automático de zoom de Highcharts si quieres controlar la experiencia
+            resetZoomButton: { position: { x: -10, y: 10 } }
+        },
+
+        title: { text: null },
+        credits: { enabled: false },
+        legend: { enabled: false },
+
+        // >>>>>> AQUÍ ESTÁ EL CONTROL DE ZOOM <<<<<<
+        mapView: {
+            // maxZoom: Controla cuánto se pueden acercar (zoom in). 
+            // Valor bajo (ej. 1) = casi no zoom. Valor alto (ej. 10) = zoom microscópico.
+            maxZoom: 3,  
+            
+            // Si quieres evitar que se alejen demasiado, usa fitToGeometry automáticamente
+        },
+        
+        mapNavigation: {
+            enabled: true,
+            enableMouseWheelZoom: true,
+            // Ajustamos sensibilidad para que la rueda del ratón no sea muy agresiva
+            mouseWheelSensitivity: 1.1, 
+            buttonOptions: {
+                verticalAlign: 'bottom',
+                align: 'right'
+            }
+        },
+
+        tooltip: { enabled: false },
+
+        series: [{
+            data: dataProvincias,
+            name: 'Provincias',
+            
+            // ESTILO PROVINCIAS
+            color: '#FFFFFF',       // Blancas
+            borderColor: '#607D8B', // Borde gris fuerte
+            borderWidth: 1,
+
+            allAreas: true,
+            cursor: 'pointer',
+
+            states: {
+                hover: { color: '#FFF59D', borderColor: '#333', borderWidth: 2 },
+                select: { color: '#FFD700' }
+            },
+
+            // ESTILO ETIQUETAS (TEXTOS)
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}',
+                allowOverlap: true, // "TRUE" necesario para ver nombres largos a 18px
+                style: {
+                    fontSize: '18px',     // TAMAÑO FIJO
+                    fontWeight: 'bold',
+                    color: '#000000',
+                    textOutline: '3px white', // Borde blanco
+                    textTransform: 'uppercase'
+                }
+            },
+            point: {
+                events: {
+                    click: function () {
+                        selectProvincia(this.name, this['hc-key']);
+                    }
+                }
+            }
+        }]
+    });
+
+    /* 3. FUNCIONES DEL PANEL */
+    function selectProvincia(nombre, codigo) {
+        // Lógica de detección de regiones simple por códigos parciales
+        let region = "Región Este / Ozama";
+        const c = codigo.toString();
+        const norte = ['pp','mc','da','sa','es','va','mv','du','ns','sm','mt','lb','sz','mo'];
+        const sur = ['sc','az','sj','ep','bh','ba','in','pn','br','ju','cr'];
+        
+        if(norte.some(x => c.includes('-'+x))) region = "Región Cibao / Norte";
+        if(sur.some(x => c.includes('-'+x))) region = "Región Sur";
+
+        // DOM
+        document.getElementById('lbl-provincia').innerText = nombre;
+        document.getElementById('lbl-region').innerText = region;
+        
+        document.getElementById('state-empty').classList.add('hidden');
+        document.getElementById('state-selected').classList.remove('hidden');
+    }
+
+    function navegar(tipo) {
+        const prov = document.getElementById('lbl-provincia').innerText;
+        alert('Abriendo ' + tipo + ' para: ' + prov);
+        // window.location.href = ...
+    }
+</script>
+
+</body>
+</html>
