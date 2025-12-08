@@ -25,3 +25,4 @@ const loginApple = async () => {
   const respuesta = await AppleID.auth.signIn();
   console.log(respuesta);
 };
+
