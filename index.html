@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Voz RD - Menú Principal</title>
+    <!-- Fuente Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Iconos FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --azul-rd: #003087;
+            --azul-claro: #004BC4;
+            --rojo-rd: #CE1126;
+            --blanco: #ffffff;
+            --gris-bg: #EAEFF5;
+            --verde-accion: #00A650;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gris-bg);
+            color: #333;
+            font-size: 16px;
+        }
+
+        /* HEADER */
+        .header-top {
+            background: var(--blanco);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 6px solid var(--azul-rd);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+            min-height: 100px;
+        }
+
+        .brand h1 { font-size: 2.5rem; font-weight: 900; color: var(--azul-rd); letter-spacing: -1px; text-transform: uppercase; margin: 0; line-height: 1; }
+        .brand span { color: var(--rojo-rd); }
+        .brand p { font-size: 1rem; color: #666; font-weight: 500; margin-top: 5px; letter-spacing: 1px; }
+
+        .auth-container { position: absolute; right: 3rem; top: 50%; transform: translateY(-50%); }
+
+        .btn-login {
+            background: transparent; border: 3px solid var(--azul-rd); color: var(--azul-rd);
+            padding: 0.6rem 1.5rem; font-size: 1.1rem; font-weight: 800; border-radius: 15px;
+            cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px; text-transform: uppercase;
+        }
+        .btn-login:hover { background: var(--azul-rd); color: white; box-shadow: 0 8px 20px rgba(0,48,135,0.25); transform: scale(1.05); }
+
+        .container-xl { max-width: 1200px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        /* HERO & CARDS */
+        .hero-card {
+            background: var(--blanco); padding: 3rem; border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0,48,135,0.1); text-align: center; margin-bottom: 3rem;
+        }
+        .hero-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: var(--azul-rd); margin-bottom: 1rem; line-height: 1.2; }
+        .hero-text { font-size: 1.3rem; color: #555; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        .btn-cta-huge {
+            display: inline-flex; align-items: center; justify-content: center; gap: 15px;
+            background: linear-gradient(to right, var(--verde-accion), #008f45); color: white;
+            padding: 1.5rem 3rem; font-size: 1.5rem; font-weight: 900; text-decoration: none; border-radius: 60px;
+            box-shadow: 0 10px 30px rgba(0, 166, 80, 0.3); text-transform: uppercase; letter-spacing: 1px; transition: transform 0.2s;
+        }
+        .btn-cta-huge:hover { transform: scale(1.03); box-shadow: 0 15px 40px rgba(0, 166, 80, 0.4); }
+
+        .grid-categorias { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .cat-card {
+            background: var(--blanco); border-radius: 20px; padding: 2rem 1.5rem; text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05); transition: all 0.3s; cursor: pointer; border: 2px solid transparent;
+        }
+        .cat-card:hover { transform: translateY(-5px); border-color: var(--azul-rd); box-shadow: 0 15px 40px rgba(0,48,135,0.15); }
+        .cat-icon { font-size: 4rem; color: var(--azul-rd); margin-bottom: 1rem; display: block; }
+        .cat-card:hover .cat-icon { color: var(--rojo-rd); }
+        .cat-title { font-size: 1.4rem; font-weight: 700; color: #333; text-transform: uppercase; }
+
+        .video-section {
+            background: var(--blanco); border-radius: 25px; padding: 3rem; margin-top: 4rem; text-align: center;
+            box-shadow: 0 15px 50px rgba(0,48,135,0.1);
+        }
+        .video-wrapper { position: relative; width: 100%; max-width: 900px; margin: 2rem auto 0; border-radius: 20px; overflow: hidden; border: 4px solid var(--azul-rd); box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #000; }
+        .video-responsive { overflow: hidden; padding-bottom: 56.25%; position: relative; height: 0; }
+        .video-responsive iframe { left: 0; top: 0; height: 100%; width: 100%; position: absolute; border: none; }
+
+        footer { text-align: center; padding: 3rem; color: #666; margin-top: 2rem; border-top: 2px solid #ddd; }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 48, 135, 0.6); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: white; width: 95%; max-width: 480px; padding: 2.5rem; border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #999; cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { color: var(--rojo-rd); }
+
+        .auth-tabs { display: flex; margin-bottom: 1.5rem; border-bottom: 3px solid #eee; }
+        .tab-btn { flex: 1; padding: 1rem; font-size: 1.1rem; font-weight: 800; background: none; border: none; cursor: pointer; color: #999; position: relative; font-family: 'Poppins', sans-serif;}
+        .tab-btn.active { color: var(--azul-rd); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 5px; background: var(--azul-rd); border-radius: 10px 10px 0 0; }
+
+        .auth-input { width: 100%; height: 50px; padding: 0 1rem; font-size: 1rem; border-radius: 12px; border: 2px solid #ccc; background: #F8F9FA; font-family: 'Poppins', sans-serif; margin-bottom: 10px; transition: 0.3s; }
+        .auth-input:focus { outline: none; border-color: var(--azul-rd); background: white; }
+        
+        .forgot-link { text-align: right; display: block; margin-bottom: 20px; color: var(--azul-rd); font-weight: 600; text-decoration: none; cursor: pointer; }
+        .forgot-link:hover { color: var(--rojo-rd); text-decoration: underline; }
+
+        .btn-submit { background: var(--azul-rd); color: white; height: 55px; width: 100%; font-size: 1.2rem; font-weight: 800; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; }
+        .btn-submit:hover { background: var(--azul-claro); transform: scale(1.02); }
+
+        .social-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+        .social-btn { width: 100%; height: 45px; border-radius: 10px; border: 1px solid #ddd; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-family: 'Poppins', sans-serif;}
+        .social-btn:hover { background: #f8f8f8; }
+
+        @media (max-width: 900px) {
+            .header-top { flex-direction: column; padding: 1.5rem; gap: 1.5rem; }
+            .auth-container { position: static; transform: none; width: 100%; display: flex; justify-content: center; margin-top: 10px; }
+            .btn-login { width: 100%; justify-content: center; max-width: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-top">
+        <div class="brand">
+            <h1>Mi Voz <span>RD</span></h1>
+            <p>TU COMUNIDAD MEJORA CUANDO TÚ HABLAS</p>
+        </div>
+        <div class="auth-container">
+            <button onclick="abrirModal()" class="btn-login">
+                <i class="fas fa-user-circle"></i> INICIAR SESIÓN
+            </button>
+        </div>
+    </header>
+
+    <!-- MODAL INICIO SESIÓN -->
+    <div id="modalLoginIndex" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab-btn active">INGRESAR</button>
+                <!-- RUTA ACTUALIZADA A LA CARPETA pages/ -->
+                <button class="tab-btn" onclick="irPagina('registro')">CREAR CUENTA</button>
+            </div>
+            
+            <form onsubmit="event.preventDefault(); window.location.href='pages/login.html';">
+                <input type="email" class="auth-input" placeholder="Correo Electrónico" required>
+                <input type="password" class="auth-input" placeholder="Contraseña" required>
+                
+                <!-- RUTA ACTUALIZADA A LA CARPETA pages/ -->
+                <a href="pages/login.html#recuperar" class="forgot-link">¿Olvidaste tu contraseña?</a>
+                
+                <button type="submit" class="btn-submit">ENTRAR</button>
+
+                <div style="text-align: center; margin: 20px 0 10px; color: #aaa; font-size: 0.9rem;">O continúa con</div>
+                <div class="social-buttons">
+                    <button type="button" class="social-btn"><i class="fab fa-google" style="color: #DB4437;"></i> Google</button>
+                    <button type="button" class="social-btn"><i class="fab fa-facebook-f" style="color: #1877F2;"></i> Facebook</button>
+                    <button type="button" class="social-btn"><i class="fab fa-apple" style="color: black;"></i> Apple</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container-xl">
+        <div class="hero-card">
+            <h2 class="hero-title">¡Reportar un problema es fácil y rápido!</h2>
+            <p class="hero-text">¿Baches, apagones o basura acumulada? <br><strong>En menos de 2 minutos tú puedes hacer la diferencia.</strong></p>
+            <a href="/pages/reportar.html" class="btn-cta-huge">REPORTAR AHORA <i class="fas fa-bullhorn"></i></a>
+        </div>
+        
+        <div class="grid-categorias">
+            <div class="cat-card"><i class="fas fa-road cat-icon"></i><h3 class="cat-title">Baches y Calles</h3></div>
+            <div class="cat-card"><i class="fas fa-bolt cat-icon"></i><h3 class="cat-title">Falta de Luz</h3></div>
+            <div class="cat-card"><i class="fas fa-trash-alt cat-icon"></i><h3 class="cat-title">Basura</h3></div>
+            <div class="cat-card"><i class="fas fa-shield-alt cat-icon"></i><h3 class="cat-title">Inseguridad</h3></div>
+            <div class="cat-card"><i class="fas fa-water cat-icon"></i><h3 class="cat-title">Agua</h3></div>
+            <div class="cat-card"><i class="fas fa-lightbulb cat-icon"></i><h3 class="cat-title">Alumbrado</h3></div>
+        </div>
+
+        <div class="video-section">
+            <h2 style="font-weight: 800; color: #003087; margin-bottom: 20px;"><i class="fas fa-play-circle" style="color: #CE1126;"></i> ¿CÓMO FUNCIONA?</h2>
+            <p style="color: var(--text-secondary);">Mira este breve video explicativo para aprender a realizar tu reporte.</p>
+            <div class="video-wrapper">
+                <div class="video-responsive"><iframe width="560" height="315" src="" title="Video"></iframe></div>
+            </div>
+        </div>
+         <footer>
+            <p><strong>Mi Voz RD</strong> © Plataforma Ciudadana Segura</p>
+            <p style="margin-top: 10px;">Hecho con ❤️ para la República Dominicana</p>
+        </footer>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modalLoginIndex');
+        function abrirModal() { modal.style.display = 'flex'; }
+        function cerrarModal() { modal.style.display = 'none'; }
+        window.onclick = function(e) { if(e.target == modal) cerrarModal(); }
+
+        // RUTA ACTUALIZADA EN JAVASCRIPT: pages/login.html
+        function irPagina(tipo) { window.location.href = 'pages/login.html#' + tipo; }
+    </script>
+</body>
+</html>
