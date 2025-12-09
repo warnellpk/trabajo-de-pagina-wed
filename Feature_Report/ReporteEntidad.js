@@ -1,15 +1,17 @@
 class Reporte {
-    Actualizaciones //string
-    Foro //Array of String
-    Institucion //String
+    Actualizaciones; //Array of string, se actualiza con la repuesta de la institucion y sus avances
+    Foro; //Array of String, se actualiza desde la pagina con los comentarios de la denuncias
+    Institucion; //String, se declara depues de extraer la institucion de la ubicacion
 
-    constructor(id, Usuario_ID, Categoria, descripcion, ubicacion, Evidencia, fecha = new Date()) {
-        this.id = id;
-        this.Usuario_ID = Usuario_ID;
+    constructor(Id, UsuarioId, Categoria, Descripcion, Ubicacion, Evidencia, Fecha = new Date()) {
+        this.Id = Id; //Posiblemente implementar el algoritmo de luhn
+        this.UsuarioId = UsuarioId;
         this.Categoria = Categoria;
-        this.descripcion = descripcion;
-        this.estado = "pendiente";
-        this.ubicacion = [X, Y]
-        this.evidencia = Evidencia
+        this.Descripcion = Descripcion;
+        this.Estado = "Pendiente"; /* Todo reporte empienza en Pendiente, luego si fue visto o respondido 
+        por la institucion entonces pasa a "En revision" y finalmente pasa a "Resuelto" o "Rechazado" */
+        this.Ubicacion = Ubicacion; // Ubicacion en google maps, google maps tienes las coordenadas en el URL
+        this.Evidencia = Evidencia; //Referencia al archivo que contiene las fotos o videos que se subio como evidencia
+        this.Fecha = Fecha
     }
 }
