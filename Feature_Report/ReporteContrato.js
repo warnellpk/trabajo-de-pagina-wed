@@ -1,4 +1,4 @@
-class ReporteContrato {
+export class ReporteContrato {
     // Método para actualizar el estado del reporte, se necesitaria una API que detecte los cambio de estados y llame al metodo
     ActualizarEstado(NuevoEstado) {
         const EstadosValidos = ["Pendiente", "En revision", "Resuelto", "Rechazado"];
