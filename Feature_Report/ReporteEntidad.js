@@ -1,4 +1,4 @@
-class Reporte {
+class ReporteEntidad {
     Actualizaciones; //Array of string, se actualiza con la repuesta de la institucion y sus avances
     Foro; //Array of String, se actualiza desde la pagina con los comentarios de la denuncias
     Institucion; //String, se declara depues de extraer la institucion de la ubicacion
