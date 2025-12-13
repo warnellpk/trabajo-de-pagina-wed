@@ -1,4 +1,4 @@
-export class LoginAppleUseCase {
+export class RegistroAppleUseCase {
   constructor(AppleProvider) {
     this.AppleProvider = AppleProvider;
   }

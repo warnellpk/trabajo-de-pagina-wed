@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+export const express = require("express");
+export const router = express.Router();
 
 module.exports = (controller) => {
   router.post("/login", controller.login);

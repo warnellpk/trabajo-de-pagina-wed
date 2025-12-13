@@ -1,11 +1,11 @@
- class Usuario {
+export class Usuario {
   constructor({
     id,
     nombreApellido,
     direccion,
     correo,
     telefono,
-    contraseña,
+    contrasena,
     reputacion = 0,
     fotoPerfil = "",
     descripcion = "",
@@ -19,7 +19,7 @@
     this.direccion = direccion;
     this.correo = correo;
     this.telefono = telefono;
-    this.contraseña = contraseña;
+    this.contrasena = contrasena;
     this.reputacion = reputacion;
     this.fotoPerfil = fotoPerfil;
     this.descripcion = descripcion;
@@ -31,4 +31,3 @@
   }
 }
 
-module.exports = Usuario;
