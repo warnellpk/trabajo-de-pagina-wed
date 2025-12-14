@@ -7,10 +7,10 @@ export class LoginUseCase {
     this.authRepository = authRepository;
   }
 
-  async execute({ identificador, contraseña }) {
+  async execute({ identificador, contrasena }) {
 
-    if (!esClaveValida(contraseña)) {
-      return { ok: false, mensaje: "La contraseña debe tener mínimo 8 caracteres." };
+    if (!esClaveValida(contrasena)) {
+      return { ok: false, mensaje: "La contrasena debe tener mínimo 8 caracteres." };
     }
 
     let tipo = null;
@@ -25,7 +25,7 @@ export class LoginUseCase {
       return { ok: false, mensaje: "Usuario no encontrado." };
     }
 
-    const coincide = await this.authRepository.verificarContrasena(usuario, contraseña);
+    const coincide = await this.authRepository.verificarContrasena(usuario, contrasena);
 
     if (!coincide) {
       return { ok: false, mensaje: "Contraseña incorrecta." };
