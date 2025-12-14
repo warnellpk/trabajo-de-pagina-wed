@@ -1,4 +1,10 @@
 export function esCorreoValido(correo) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(correo);
-};
+  if (!correo || typeof correo !== "string") return false;
+
+  const limpio = correo.trim().toLowerCase();
+
+  // Email estándar (RFC simplificado)
+  const regex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+  return regex.test(limpio);
+}
