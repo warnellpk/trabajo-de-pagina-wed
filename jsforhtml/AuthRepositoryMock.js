@@ -1,4 +1,4 @@
-export default class AuthRepositoryMock {
+export class AuthRepositoryMock {
     constructor() {
         alert("Dentro del AuthRepositoryMock");
     }

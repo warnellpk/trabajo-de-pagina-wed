@@ -4,48 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso - Mi Voz RD</title>
-    <!-- Fuente Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <!-- Iconos FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Enlace al CSS externo -->
     <link rel="stylesheet" href="/style/login.css">
 </head>
 <body>
 
-    <div class="auth-header">
+    <header class="auth-header">
         <h1 class="brand-title">Mi Voz <span>RD</span></h1>
         <p class="brand-subtitle">Bienvenido a la comunidad</p>
-    </div>
+    </header>
 
-    <div class="auth-card">
-        <!-- TABS -->
-        <div class="auth-tabs" id="authTabs">
-            <button class="tab-btn active" onclick="cambiarTab('login')" id="tabLogin">INGRESAR</button>
-            <button class="tab-btn" onclick="cambiarTab('registro')" id="tabRegistro">CREAR CUENTA</button>
-        </div>
+    <main class="auth-card">
+        <nav class="auth-tabs" id="authTabs">
+            <button type="button" class="tab-btn active" onclick="cambiarTab('login')" id="tabLogin">INGRESAR</button>
+            <button type="button" class="tab-btn" onclick="cambiarTab('registro')" id="tabRegistro">CREAR CUENTA</button>
+        </nav>
 
-        <!-- 1. FORMULARIO LOGIN -->
         <form id="formLogin" class="auth-form active-form" novalidate onsubmit="validarLogin(event)">
-            <label class="form-title">INICIAR SESIÓN</label>
+            <h2 class="form-title">INICIAR SESIÓN</h2>
             
-            <div id="loginAlert" class="alert-box">
+            <div id="loginAlert" class="alert-box" style="display: none;">
                 <i class="fas fa-exclamation-circle"></i> Correo o contraseña incorrectos.
             </div>
 
             <div class="input-wrapper">
-                <input type="email" id="loginEmail" class="auth-input" placeholder="Correo Electrónico">
+                <label for="loginEmail">Correo Electrónico</label>
+                <input type="email" id="loginEmail" class="auth-input" placeholder="ejemplo@correo.com">
                 <small class="error-msg">Correo inválido (falta @ o .)</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="password" id="loginPass" class="auth-input" placeholder="Contraseña">
+                <label for="loginPass">Contraseña</label>
+                <input type="password" id="loginPass" class="auth-input" placeholder="Tu contraseña">
                 <small class="error-msg">Campo requerido.</small>
             </div>
             
-            <a onclick="mostrarRecuperacion()" class="forgot-pass-link">¿Olvidaste tu contraseña?</a>
+            <button type="button" onclick="mostrarRecuperacion()" class="forgot-pass-link">¿Olvidaste tu contraseña?</button>
             
-            <button type="submit" class="btn-submit" onclick="loginExecute()">ENTRAR</button>
+            <button type="submit" class="btn-submit">ENTRAR</button>
 
             <div class="social-divider">O continúa con</div>
             <div class="social-buttons">
@@ -55,18 +52,19 @@
             </div>
         </form>
 
-        <!-- 2. FORMULARIO RECUPERACIÓN -->
-        <form id="formRecovery" class="auth-form" onsubmit="procesarRecuperacion(event)">
-            <label class="form-title text-center">RECUPERAR ACCESO</label>
+        <form id="formRecovery" class="auth-form" style="display: none;" onsubmit="procesarRecuperacion(event)">
+            <h2 class="form-title text-center">RECUPERAR ACCESO</h2>
             <p class="text-center-sub">Ingresa tus datos y te enviaremos un enlace.</p>
 
             <div class="input-wrapper">
-                <input type="text" id="recCedula" class="auth-input" placeholder="Cédula (Ej: 402-0000000-0)">
+                <label for="recCedula">Cédula</label>
+                <input type="text" id="recCedula" class="auth-input" placeholder="402-0000000-0">
                 <small class="error-msg">Campo requerido.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="email" id="recEmail" class="auth-input" placeholder="Correo Registrado">
+                <label for="recEmail">Correo Registrado</label>
+                <input type="email" id="recEmail" class="auth-input" placeholder="ejemplo@correo.com">
                 <small class="error-msg">Correo inválido.</small>
             </div>
 
@@ -76,45 +74,53 @@
             </button>
         </form>
 
-        <!-- 3. FORMULARIO REGISTRO -->
-        <form id="formRegistro" class="auth-form" novalidate onsubmit="validarRegistro(event)">
-            <label class="form-title">REGISTRAR NUEVO USUARIO</label>
+        <form id="formRegistro" class="auth-form" style="display: none;" novalidate onsubmit="validarRegistro(event)">
+            <h2 class="form-title">REGISTRAR NUEVO USUARIO</h2>
             
             <div class="input-wrapper">
-                <input type="text" id="Nombre" class="auth-input" placeholder="Nombre Completo">
+                <label for="regNombre">Nombre Completo</label>
+                <input type="text" id="regNombre" class="auth-input" placeholder="Juan Pérez">
                 <small class="error-msg">Campo obligatorio.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="text" id="dirrecion" class="auth-input" placeholder="dirrecion">
-                <small class="error-msg">campo obligatorio.</small>
+                <label for="regDireccion">Dirección</label>
+                <input type="text" id="regDireccion" class="auth-input" placeholder="Calle, Sector, Ciudad">
+                <small class="error-msg">Campo obligatorio.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="email" id="Email" class="auth-input" placeholder="Correo Electrónico">
+                <label for="regEmail">Correo Electrónico</label>
+                <input type="email" id="regEmail" class="auth-input" placeholder="ejemplo@correo.com">
                 <small class="error-msg">Formato inválido.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="password" id="contraseña" class="auth-input" placeholder="Crear Contraseña">
+                <label for="regPass">Crear Contraseña</label>
+                <input type="password" id="regPass" class="auth-input" placeholder="Mínimo 4 caracteres">
                 <small class="error-msg">Mínimo 4 caracteres.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="password" id="conConfirm" class="auth-input" placeholder="Confirmar Contraseña">
+                <label for="regPassConfirm">Confirmar Contraseña</label>
+                <input type="password" id="regPassConfirm" class="auth-input" placeholder="Repite tu contraseña">
                 <small class="error-msg">No coinciden.</small>
             </div>
 
             <div class="input-wrapper">
-                <input type="tel" id="telefono" class="auth-input" placeholder="Teléfono">
+                <label for="regTelefono">Teléfono</label>
+                <input type="tel" id="regTelefono" class="auth-input" placeholder="809-000-0000">
                 <small class="error-msg">Campo obligatorio.</small>
             </div>
+
             <div class="input-wrapper">
-                <input type="text" id="cedula" class="auth-input" placeholder="Cédula">
+                <label for="regCedula">Cédula</label>
+                <input type="text" id="regCedula" class="auth-input" placeholder="001-0000000-0">
                 <small class="error-msg">Campo obligatorio.</small>
             </div>
             
             <button type="submit" class="btn-submit">CREAR CUENTA</button>
+            
             <div class="social-divider">O regístrate con</div>
             <div class="social-buttons">
                 <button type="button" class="social-btn btn-google"><i class="fab fa-google"></i> Google</button>
@@ -122,13 +128,11 @@
                 <button type="button" class="social-btn btn-apple"><i class="fab fa-apple"></i> Apple</button>
             </div>
         </form>
-    </div>
+    </main>
 
     <a href="/index.html" class="btn-back-home"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
 
-    <!-- js -->
-    <script type="module" src="../jsforhtml/login.js"></script>
+  <script type="module" src="/jsforhtml/Login.js"></script>
     
-
 </body>
 </html>

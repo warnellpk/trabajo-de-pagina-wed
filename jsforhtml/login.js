@@ -1,48 +1,92 @@
+import { LoginUseCaseMock } from './loginUseCaseMocks.js';
+import { RegisterUseCaseMock } from './registerUseCaseMock.js';
 
-import AuthRepositoryMock from './AuthRepositoryMock.js';
-import LoginUseCaseMock from './LoginUseCaseMock.js';
-// REFERENCIAS DOM
-const tabsH = document.getElementById('authTabs');
-const fLogin = document.getElementById('formLogin');
-const fReg = document.getElementById('formRegistro');
-const fRec = document.getElementById('formRecovery');
+const loginUC = new LoginUseCaseMock();
+const registerUC = new RegisterUseCaseMock();
 
+// --- Navegación de Interfaz ---
+window.cambiarTab = (tipo) => {
+    const formLogin = document.getElementById('formLogin');
+    const formRegistro = document.getElementById('formRegistro');
+    const formRecovery = document.getElementById('formRecovery');
+    const tabLogin = document.getElementById('tabLogin');
+    const tabRegistro = document.getElementById('tabRegistro');
+    const tabsNav = document.getElementById('authTabs');
 
-function cambiarTab(t) {
-    fRec.classList.remove('active-form'); 
-    tabsH.style.display='flex';
-    document.querySelectorAll('.input-error').forEach(e => e.classList.remove('input-error'));
-    document.getElementById('loginAlert').style.display='none';
+    tabsNav.style.display = 'flex';
+    formRecovery.style.display = 'none';
 
-    if(t === 'login'){
-        document.getElementById('tabLogin').classList.add('active'); 
-        document.getElementById('tabRegistro').classList.remove('active');
-        fLogin.classList.add('active-form'); 
-        fReg.classList.remove('active-form');
+    if (tipo === 'login') {
+        formLogin.style.display = 'block';
+        formRegistro.style.display = 'none';
+        tabLogin.classList.add('active');
+        tabRegistro.classList.remove('active');
     } else {
-        document.getElementById('tabRegistro').classList.add('active'); 
-        document.getElementById('tabLogin').classList.remove('active');
-        fReg.classList.add('active-form'); 
-        fLogin.classList.remove('active-form');
+        formLogin.style.display = 'none';
+        formRegistro.style.display = 'block';
+        tabLogin.classList.remove('active');
+        tabRegistro.classList.add('active');
     }
-}
+};
 
+window.mostrarRecuperacion = () => {
+    document.getElementById('formLogin').style.display = 'none';
+    document.getElementById('formRegistro').style.display = 'none';
+    document.getElementById('authTabs').style.display = 'none';
+    document.getElementById('formRecovery').style.display = 'block';
+};
 
-function loginExecute() {
-    alert("Iniciando sesión...");
-    var authRepository = new AuthRepositoryMock();
-    var loginUseCase = new LoginUseCaseMock(authRepository);
-        alert("despues de crear ...");
-    var email = document.getElementById("loginEmail").value;
-    var passsword = document.getElementById("loginPass").value;
+window.ocultarRecuperacion = () => {
+    window.cambiarTab('login');
+};
 
-  try {
-    var respond =  loginUseCase.execute({ identificador: email, contrasena: passsword });
-    alert("Respuesta: " + JSON.stringify(respond));
-  } catch (err) {
-    console.error(err);
-    alert("Error al iniciar sesión: " + err.message);
-  }
+// --- Acciones de Formulario ---
 
-  return { ok: true };
-}
+window.validarLogin = async (event) => {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPass').value;
+    const alertBox = document.getElementById('loginAlert');
+
+    try {
+        const respuesta = await loginUC.execute({ identificador: email, contrasena: pass });
+        alert(respuesta.message);
+        window.location.href = "/dashboard.html"; // Redirección ficticia
+    } catch (error) {
+        alertBox.style.display = 'block';
+        alertBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${error.message}`;
+    }
+};
+
+window.validarRegistro = async (event) => {
+    event.preventDefault();
+    
+    const datos = {
+        nombre: document.getElementById('regNombre').value,
+        direccion: document.getElementById('regDireccion').value,
+        email: document.getElementById('regEmail').value,
+        pass: document.getElementById('regPass').value,
+        passConfirm: document.getElementById('regPassConfirm').value,
+        telefono: document.getElementById('regTelefono').value,
+        cedula: document.getElementById('regCedula').value
+    };
+
+    if (datos.pass !== datos.passConfirm) {
+        alert("Las contraseñas no coinciden.");
+        return;
+    }
+
+    try {
+        const respuesta = await registerUC.execute(datos);
+        alert(respuesta.message);
+        window.cambiarTab('login');
+    } catch (error) {
+        alert("Error al registrar: " + error.message);
+    }
+};
+
+window.procesarRecuperacion = (event) => {
+    event.preventDefault();
+    alert("Enlace de recuperación enviado al correo.");
+    window.ocultarRecuperacion();
+};
