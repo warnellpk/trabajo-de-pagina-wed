@@ -4,113 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Voz RD - Reportar</title>
+    <!-- Fuentes e Iconos -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- CSS de Leaflet (para estilos del mapa si se reactivara) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-    <style>
-        :root {
-            --azul-rd: #003087; --azul-claro: #004BC4; --rojo-rd: #CE1126; --blanco: #ffffff;
-            --gris-bg: #EAEFF5; --verde-accion: #00A650;
-            --estado-pendiente: #f39c12; --estado-progreso: #3498db; --estado-completado: #27ae60;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--gris-bg); color: #333; font-size: 16px; }
-
-        /* HEADER */
-        .header-top { background: var(--blanco); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 6px solid var(--azul-rd); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .brand h1 { font-size: 1.8rem; font-weight: 900; color: var(--azul-rd); margin: 0; text-transform: uppercase; }
-        .brand span { color: var(--rojo-rd); }
-        .header-actions { display: flex; gap: 10px; }
-        .btn-nav { text-decoration: none; padding: 0.8rem 1.2rem; border-radius: 12px; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
-        .btn-history { background: #fdfdfd; border: 2px solid #ccc; color: #555; }
-        .btn-back { background: var(--rojo-rd); color: white; }
-
-        .container-xl { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
-        .view-section { display: none; animation: fadeIn 0.4s; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* CATEGORÍAS */
-        .grid-cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .cat-mini { background: white; padding: 1rem; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid transparent; transition: 0.2s; }
-        .cat-mini:hover { border-color: var(--azul-rd); transform: translateY(-3px); background-color: #f0f8ff; }
-        .cat-mini i { font-size: 2rem; color: var(--azul-rd); margin-bottom: 5px; }
-        
-        /* MAPA Y GPS */
-        .map-relative { position: relative; width: 100%; height: 450px; border-radius: 15px; border: 4px solid #ccc; overflow: hidden; }
-        #mapaContainer { height: 100%; width: 100%; z-index: 1; cursor: crosshair; }
-        
-        /* Botón GPS Flotante */
-        .btn-gps {
-            position: absolute; bottom: 20px; right: 20px; z-index: 999;
-            background: white; border: 2px solid var(--azul-rd); color: var(--azul-rd);
-            width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: 0.2s;
-        }
-        .btn-gps:hover { background: var(--azul-rd); color: white; transform: scale(1.1); }
-        .btn-gps:active { transform: scale(0.95); }
-
-        .map-hint { font-size: 0.9rem; color: #555; margin-top: 5px; background: #e3f2fd; padding: 8px; border-radius: 5px; display: inline-block;}
-
-        /* FORMULARIOS */
-        .report-card { background: white; padding: 3rem; border-radius: 25px; box-shadow: 0 20px 60px rgba(0,48,135,0.1); margin-bottom: 3rem; }
-        .form-grid { display: grid; gap: 2rem; }
-        label { font-weight: 700; color: var(--azul-rd); margin-bottom: 8px; display: block; font-size: 1.1rem; }
-        
-        .input-lg, .select-lg, .textarea-lg { width: 100%; padding: 15px; font-size: 1.1rem; border: 2px solid #ddd; border-radius: 12px; background: #F8F9FA; font-family: 'Poppins', sans-serif; }
-        .textarea-lg { resize: vertical; min-height: 120px; }
-        .loading-input { background-color: #fff9c4; color: #555; }
-
-        .upload-zone { border: 3px dashed #ccc; padding: 2rem; text-align: center; border-radius: 15px; cursor: pointer; background: #fafafa; transition: 0.3s; }
-        .btn-enviar { background: var(--verde-accion); color: white; width: 100%; padding: 1.2rem; font-size: 1.4rem; font-weight: 800; border: none; border-radius: 50px; cursor: pointer; transition: 0.2s; text-transform: uppercase;}
-        
-        .auto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } /* Grid para los 2 selectores */
-
-        /* HISTORY & EXITO */
-        .history-card { background: white; padding: 2rem; border-radius: 20px; min-height: 60vh; }
-        .report-item { border: 1px solid #eee; border-radius: 15px; padding: 1.5rem; margin-bottom: 1.5rem; position: relative; }
-        .status-badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: white; position: absolute; top: 1.5rem; right: 1.5rem; }
-        .st-pendiente { background: var(--estado-pendiente); }
-
-        @media (max-width: 768px) { .auto-grid, .category-grid { grid-template-columns: 1fr; } .header-top { padding: 1rem; } .brand h1 { font-size: 1.3rem; } .btn-nav span { display: none; } }
-    </style>
+    <!-- Tu hoja de estilos separada -->
+    <link rel="stylesheet" href="/style/reportar.css">
 </head>
 <body>
 
     <header class="header-top">
         <div class="brand"><h1>Mi Voz <span>RD</span></h1></div>
         <div class="header-actions">
-            <button class="btn-nav btn-history" onclick="mostrarHistorial()"><i class="fas fa-history"></i> <span>Mis Reportes</span></button>
+            <button class="btn-nav btn-history"><i class="fas fa-history"></i> <span>Mis Reportes</span></button>
             <a href="/index.html" class="btn-nav btn-back"><i class="fas fa-sign-out-alt"></i> <span>Salir</span></a>
         </div>
     </header>
 
     <div class="container-xl">
 
-        <!-- ===== VISTA: CREAR ===== -->
+        <!-- ===== VISTA: CREAR (Activa por defecto) ===== -->
         <div id="viewCreate" class="view-section active">
             <div style="text-align: center; margin-bottom: 2rem;">
                 <h2 style="color: var(--azul-rd); font-weight: 800;">Crear Nuevo Reporte</h2>
                 <p>Selecciona una categoría</p>
             </div>
 
-            <!-- GRID ICONOS SUPERIOR (CON RUIDO AÑADIDO) -->
+            <!-- GRID ICONOS SUPERIOR -->
             <div class="grid-cats">
-                <div class="cat-mini" onclick="preCat('Basura')"><i class="fas fa-trash-alt"></i><span>Basura</span></div>
-                <div class="cat-mini" onclick="preCat('Calles')"><i class="fas fa-road"></i><span>Calles</span></div>
-                <div class="cat-mini" onclick="preCat('Luz')"><i class="fas fa-bolt"></i><span>Luz</span></div>
-                <div class="cat-mini" onclick="preCat('Seguridad')"><i class="fas fa-shield-alt"></i><span>Inseguridad</span></div>
-                <div class="cat-mini" onclick="preCat('Ruido')"><i class="fas fa-volume-up"></i><span>Ruido</span></div> <!-- NUEVO -->
-                <div class="cat-mini" onclick="preCat('Agua')"><i class="fas fa-faucet"></i><span>Agua</span></div>
-                <div class="cat-mini" onclick="preCat('Alumbrado')"><i class="fas fa-lightbulb"></i><span>Alumbrado</span></div>
+                <div class="cat-mini"><i class="fas fa-trash-alt"></i><span>Basura</span></div>
+                <div class="cat-mini"><i class="fas fa-road"></i><span>Calles</span></div>
+                <div class="cat-mini"><i class="fas fa-bolt"></i><span>Luz</span></div>
+                <div class="cat-mini"><i class="fas fa-shield-alt"></i><span>Inseguridad</span></div>
+                <div class="cat-mini"><i class="fas fa-volume-up"></i><span>Ruido</span></div>
+                <div class="cat-mini"><i class="fas fa-faucet"></i><span>Agua</span></div>
+                <div class="cat-mini"><i class="fas fa-lightbulb"></i><span>Alumbrado</span></div>
             </div>
 
             <div class="report-card">
-                <form id="formReporte" onsubmit="enviarReporte(event)">
+                <form id="formReporte">
                     <input type="hidden" id="reportId">
                     <div class="form-grid">
                         
@@ -118,7 +51,7 @@
                         <div class="category-grid">
                             <div>
                                 <label>1. CATEGORÍA PRINCIPAL</label>
-                                <select id="catSelect" class="select-lg" required onchange="actualizarSubcategorias()">
+                                <select id="catSelect" class="select-lg" required>
                                     <option value="">Seleccione...</option>
                                     <option value="Basura">🗑️ Basura / Aseo</option>
                                     <option value="Calles">🚧 Calles y Asfalto</option>
@@ -144,7 +77,7 @@
                             <div class="map-relative">
                                 <div id="mapaContainer"></div>
                                 <!-- BOTÓN GPS -->
-                                <button type="button" class="btn-gps" onclick="usarGPS()" title="Usar mi ubicación actual">
+                                <button type="button" class="btn-gps" title="Usar mi ubicación actual">
                                     <i class="fas fa-crosshairs"></i>
                                 </button>
                             </div>
@@ -181,232 +114,23 @@
             </div>
         </div>
 
-        <!-- HISTORIAL -->
+        <!-- HISTORIAL () -->
         <div id="viewHistory" class="view-section">
             <h2 style="text-align: center; margin-bottom:20px; color:var(--azul-rd);">Mis Reportes</h2>
-            <button onclick="verCrear()" style="background:none; border:none; cursor:pointer; color:var(--azul-claro);">⬅ Volver</button>
+            <button style="background:none; border:none; cursor:pointer; color:var(--azul-claro);">⬅ Volver</button>
             <div class="history-card" id="historyList"><p style="text-align:center;">Cargando...</p></div>
         </div>
 
-        <!-- EXITO -->
+        <!-- EXITO () -->
         <div id="viewSuccess" class="view-section" style="text-align:center; padding:4rem;">
             <i class="fas fa-check-circle" style="font-size:5rem; color:var(--verde-accion);"></i>
             <h2 style="color:var(--azul-rd);">¡Enviado!</h2>
             <p>Gracias por contribuir a tu comunidad.</p>
-            <button onclick="verCrear()" class="btn-enviar" style="max-width:300px; margin:20px auto; background:var(--azul-rd);">Nuevo Reporte</button>
+            <button class="btn-enviar" style="max-width:300px; margin:20px auto; background:var(--azul-rd);">Nuevo Reporte</button>
             <br>
-            <button onclick="mostrarHistorial()" style="background:none; border:none; text-decoration:underline; cursor:pointer;">Ver Historial</button>
+            <button style="background:none; border:none; text-decoration:underline; cursor:pointer;">Ver Historial</button>
         </div>
 
     </div>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        let map, marker;
-        const RD_VIEW = [18.7357, -70.1627];
-
-        // --- CATALOGO DE SUBCATEGORÍAS ---
-        const tiposDenuncia = {
-            'Basura': ['Montones de basura en esquina', 'Camión no pasa', 'Animal muerto', 'Escombros de construcción', 'Contenedor desbordado'],
-            'Calles': ['Bache / Hoyo grande', 'Calle sin asfaltar', 'Hundimiento de vía', 'Aceras destruidas', 'Alcantarilla sin tapa'],
-            'Luz': ['Apagón prolongado', 'Poste eléctrico caído', 'Cables en el suelo', 'Transformador explotó', 'Bajo voltaje constante'],
-            'Seguridad': ['Atraco / Asalto a mano armada', 'Punto de venta de drogas', 'Tiroteo / Balacera', 'Amenaza / Acoso en la calle', 'Vandalismo', 'Carreras de motores'],
-            'Ruido': ['Música alta (Colmadón / Bar)', 'Música alta (Vehículo / Kitipo)', 'Música alta (Vecino)', 'Construcción nocturna', 'Iglesia / Culto ruidoso', 'Industria / Taller ruidoso'],
-            'Agua': ['Fuga de agua potable (Tubo roto)', 'Agua sucia / Contaminada', 'No llega el agua hace días', 'Desbordamiento de cloaca (Aguas negras)'],
-            'Alumbrado': ['Lámpara encendida de día', 'Calle totalmente oscura', 'Lámpara intermitente']
-        };
-
-        function initMap() {
-            if(!map) {
-                map = L.map('mapaContainer', { minZoom: 8, maxZoom: 18 }).setView(RD_VIEW, 8);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '' }).addTo(map);
-                marker = L.marker(RD_VIEW, {draggable: true}).addTo(map);
-
-                map.on('click', (e) => checkAndSet(e.latlng.lat, e.latlng.lng));
-                marker.on('dragend', (e) => checkAndSet(e.target.getLatLng().lat, e.target.getLatLng().lng));
-                setTimeout(() => map.invalidateSize(), 500);
-            }
-        }
-
-        // --- FUNCIÓN GPS GEOLOCALIZACIÓN ---
-        function usarGPS() {
-            const btn = document.querySelector('.btn-gps');
-            
-            if (!navigator.geolocation) {
-                alert("Tu navegador no soporta geolocalización.");
-                return;
-            }
-
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; // Icono cargando
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    btn.innerHTML = '<i class="fas fa-crosshairs"></i>'; // Restaurar icono
-                    
-                    // Volar hacia la ubicación
-                    map.flyTo([lat, lng], 16, { duration: 1.5 });
-                    // Verificar
-                    checkAndSet(lat, lng);
-                },
-                (error) => {
-                    console.error(error);
-                    btn.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:red"></i>';
-                    alert("No pudimos obtener tu ubicación. Verifica que el GPS esté encendido y hayas dado permiso.");
-                    setTimeout(() => btn.innerHTML = '<i class="fas fa-crosshairs"></i>', 2000);
-                },
-                { enableHighAccuracy: true } // Pedir máxima precisión
-            );
-        }
-
-        // --- VALIDAR UBICACIÓN (SOLO RD) ---
-        async function checkAndSet(lat, lng) {
-            const statusInfo = document.getElementById('mapStatus');
-            statusInfo.innerHTML = "⏳ Validando zona...";
-            document.getElementById('btnSubmit').disabled = true;
-
-            const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
-            try {
-                const res = await fetch(url, {headers: {'User-Agent': 'MiVozRD_App'}});
-                const data = await res.json();
-
-                if (data && data.address) {
-                    if (data.address.country_code !== 'do') {
-                        marker.setLatLng(RD_VIEW); map.panTo(RD_VIEW);
-                        statusInfo.innerHTML = "❌ Fuera de territorio. Seleccione en RD.";
-                        statusInfo.style.backgroundColor = "#ffebee";
-                        document.getElementById('sectorRef').value = "";
-                        document.getElementById('regionRef').value = "";
-                    } else {
-                        marker.setLatLng([lat, lng]);
-                        statusInfo.innerHTML = "✅ Ubicación válida en RD.";
-                        statusInfo.style.backgroundColor = "#e8f5e9";
-                        document.getElementById('btnSubmit').disabled = false;
-                        
-                        // Llenar campos
-                        document.getElementById('coordLat').value = lat;
-                        document.getElementById('coordLng').value = lng;
-                        
-                        const addr = data.address;
-                        const calle = addr.road || addr.path || "";
-                        const barrio = addr.neighbourhood || addr.suburb || addr.hamlet || "";
-                        const ciudad = addr.city || addr.town || addr.municipality || "";
-                        const prov = addr.state || addr.province || "";
-
-                        document.getElementById('dirRef').value = calle; 
-                        document.getElementById('sectorRef').value = `${barrio ? barrio + ', ' : ''}${ciudad}`;
-                        document.getElementById('regionRef').value = detectarRegion(prov);
-                    }
-                }
-            } catch (err) { statusInfo.innerHTML = "Error mapa."; }
-        }
-
-        function detectarRegion(p) {
-            if(!p) return "RD"; p = p.toLowerCase();
-            if(p.includes('santo domingo')||p.includes('distrito')) return "Ozama (Metro)";
-            const norte = ['santiago','vega','puerto','espaillat','duarte','samaná','monseñor','dajabón','cristi','rodríguez','valverde','mirabal','trinidad','sánchez'];
-            if(norte.some(x=>p.includes(x))) return "Norte (Cibao)";
-            const sur = ['cristóbal','peravia','azua','barahona','juan','piña','independencia','pedernales','bahoruco','ocoa'];
-            if(sur.some(x=>p.includes(x))) return "Sur";
-            const este = ['altagracia','romana','seibo','hato','macorís','plata'];
-            if(este.some(x=>p.includes(x))) return "Este";
-            return "RD";
-        }
-
-        // --- GESTIÓN DE SUBCATEGORÍAS ---
-        function actualizarSubcategorias() {
-            const catMain = document.getElementById('catSelect').value;
-            const subSelect = document.getElementById('typeSelect');
-            
-            // Limpiar opciones
-            subSelect.innerHTML = "";
-
-            if (!catMain) {
-                const opt = document.createElement('option');
-                opt.value = ""; opt.text = "← Elija una categoría primero";
-                subSelect.appendChild(opt);
-                subSelect.disabled = true;
-                return;
-            }
-
-            // Habilitar y Llenar
-            subSelect.disabled = false;
-            const lista = tiposDenuncia[catMain] || [];
-            
-            // Opción por defecto
-            const defaultOpt = document.createElement('option');
-            defaultOpt.value = ""; defaultOpt.text = "Seleccione el detalle...";
-            subSelect.appendChild(defaultOpt);
-
-            lista.forEach(opcion => {
-                const opt = document.createElement('option');
-                opt.value = opcion;
-                opt.text = opcion;
-                subSelect.appendChild(opt);
-            });
-        }
-
-        // --- SISTEMA ---
-        function verCrear(){ocultarT(); document.getElementById('viewCreate').classList.add('active'); setTimeout(()=>{if(map)map.invalidateSize(); else initMap();},200);}
-        function mostrarHistorial(){ocultarT(); document.getElementById('viewHistory').classList.add('active'); renderHist();}
-        function ocultarT(){document.querySelectorAll('.view-section').forEach(e=>e.classList.remove('active'));}
-        
-        function preCat(c) {
-            document.getElementById('catSelect').value=c;
-            actualizarSubcategorias(); // IMPORTANTE: Cargar subcategorías al hacer clic en iconos
-            document.querySelector('.report-card').scrollIntoView({behavior:'smooth'});
-        }
-
-        function enviarReporte(e){
-            e.preventDefault();
-            const form = {
-                id: document.getElementById('reportId').value || Date.now().toString(),
-                fecha: new Date().toLocaleDateString(),
-                cat: document.getElementById('catSelect').value,
-                subCat: document.getElementById('typeSelect').value, // NUEVO
-                sector: document.getElementById('sectorRef').value,
-                region: document.getElementById('regionRef').value,
-                desc: document.getElementById('descRef').value,
-                estado: "Pendiente"
-            };
-            let d=JSON.parse(localStorage.getItem('mivoz_reportes'))||[];
-            if(document.getElementById('reportId').value){
-                const i=d.findIndex(x=>x.id===form.id); if(i!==-1)d[i]=form;
-            }else{ d.unshift(form); }
-            localStorage.setItem('mivoz_reportes',JSON.stringify(d));
-            document.getElementById('formReporte').reset();
-            actualizarSubcategorias(); // Resetear subcat
-            ocultarT(); document.getElementById('viewSuccess').classList.add('active');
-        }
-
-        function renderHist(){
-            const l=document.getElementById('historyList');
-            const d=JSON.parse(localStorage.getItem('mivoz_reportes'))||[];
-            if(d.length===0){l.innerHTML='<p style="text-align:center">Vacío</p>';return;}
-            let h='';
-            d.forEach(r=>{
-                h+=`<div class="report-item">
-                    <span class="status-badge st-pendiente">${r.estado}</span>
-                    <small>${r.fecha} | ${r.region}</small>
-                    <h3>${r.cat} <small>(${r.subCat || 'General'})</small></h3>
-                    <p>📍 ${r.sector}</p>
-                    <p>📝 "${r.desc}"</p>
-                    <button onclick="eliminar('${r.id}')" style="margin-top:10px; color:red; border:none; background:none; cursor:pointer;">Eliminar</button>
-                </div>`;
-            });
-            l.innerHTML=h;
-        }
-
-        function eliminar(id){
-            if(confirm("¿Borrar?")){
-                let d=JSON.parse(localStorage.getItem('mivoz_reportes'))||[];
-                localStorage.setItem('mivoz_reportes',JSON.stringify(d.filter(x=>x.id!==id)));
-                renderHist();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', initMap);
-    </script>
 </body>
 </html>

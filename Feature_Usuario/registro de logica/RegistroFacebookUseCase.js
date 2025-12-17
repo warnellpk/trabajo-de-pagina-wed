@@ -1,4 +1,4 @@
-export class LoginFacebookUseCase {
+export class RegistroFacebookUseCase {
   constructor(FacebookProvider) {
     this.FacebookProvider = FacebookProvider;
   }

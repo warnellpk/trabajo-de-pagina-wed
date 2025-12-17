@@ -8,151 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <!-- Iconos FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-    <style>
-        :root {
-            --azul-rd: #003087;
-            --azul-claro: #004BC4;
-            --rojo-rd: #CE1126;
-            --blanco: #ffffff;
-            --gris-bg: #EAEFF5;
-            --color-google: #DB4437;
-            --color-facebook: #1877F2;
-            --color-apple: #000000;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--gris-bg);
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        /* HEADER */
-        .auth-header { text-align: center; margin-bottom: 2rem; }
-        .brand-title { font-size: 3rem; font-weight: 900; color: var(--azul-rd); margin: 0; line-height: 1; text-transform: uppercase; }
-        .brand-title span { color: var(--rojo-rd); }
-        .brand-subtitle { font-size: 1rem; color: #666; letter-spacing: 1px; margin-top: 5px; }
-
-        /* CARD PRINCIPAL */
-        .auth-card {
-            background: white; width: 100%; max-width: 550px; padding: 2.5rem;
-            border-radius: 25px; box-shadow: 0 25px 50px rgba(0,48,135,0.1);
-            position: relative; transition: all 0.3s;
-        }
-
-        /* TABS */
-        .auth-tabs { display: flex; margin-bottom: 1.5rem; border-bottom: 3px solid #eee; transition: 0.3s; }
-        .tab-btn {
-            flex: 1; padding: 1rem; font-size: 1.1rem; font-weight: 800;
-            background: none; border: none; cursor: pointer; color: #999;
-            font-family: 'Poppins', sans-serif; position: relative;
-        }
-        .tab-btn.active { color: var(--azul-rd); }
-        .tab-btn.active::after {
-            content: ''; position: absolute; bottom: -3px; left: 0;
-            width: 100%; height: 5px; background: var(--azul-rd); border-radius: 10px 10px 0 0;
-        }
-
-        /* FORMULARIOS */
-        .auth-form { display: none; flex-direction: column; gap: 15px; animation: fadeEffect 0.4s; }
-        .auth-form.active-form { display: flex; }
-        @keyframes fadeEffect { from {opacity: 0;} to {opacity: 1;} }
-
-        /* INPUTS & ERRORES */
-        .input-wrapper { position: relative; width: 100%; }
-        
-        .auth-input {
-            width: 100%; height: 55px; padding: 0 1rem; font-size: 1rem;
-            border-radius: 12px; border: 2px solid #ccc; background: #F8F9FA;
-            font-family: 'Poppins', sans-serif; transition: 0.3s; color: #333;
-        }
-        .auth-input:focus {
-            outline: none; border-color: var(--azul-rd); background: white;
-            box-shadow: 0 0 0 4px rgba(0,48,135,0.1);
-        }
-        
-        .auth-input.input-error { border-color: var(--rojo-rd); background-color: #FFF5F5; }
-        .error-msg {
-            display: none; color: var(--rojo-rd); font-size: 0.8rem; font-weight: 600;
-            margin-top: 4px; margin-left: 5px;
-        }
-        .input-error + .error-msg { display: block; }
-
-        /* ALERTA DE ERROR GLOBAL */
-        .alert-box {
-            display: none; background: #FFEBEB; border: 1px solid var(--rojo-rd); color: var(--rojo-rd);
-            padding: 12px; border-radius: 10px; text-align: center; font-size: 0.9rem; font-weight: 600; margin-bottom: 10px;
-        }
-
-        /* LINKS */
-        .forgot-pass-link {
-            text-align: right; margin-top: -5px; color: var(--azul-rd); font-weight: 600; 
-            font-size: 0.9rem; text-decoration: none; cursor: pointer; align-self: flex-end; 
-            transition: color 0.2s;
-        }
-        .forgot-pass-link:hover { color: var(--rojo-rd); text-decoration: underline; }
-
-        /* FECHAS & SELECTS */
-        .dob-group { margin-bottom: 5px; width: 100%; }
-        .dob-label { font-weight: 600; color: #555; font-size: 0.9rem; margin-bottom: 5px; display: block; }
-        .dob-grid { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 10px; width: 100%; }
-        .dob-select {
-            width: 100%; height: 55px; padding: 0 10px; font-size: 1rem;
-            border-radius: 12px; border: 2px solid #ccc; background-color: #F8F9FA;
-            font-family: 'Poppins', sans-serif; color: #333; cursor: pointer;
-            -webkit-appearance: none; -moz-appearance: none; appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat; background-position: right 10px center; background-size: 12px;
-            white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
-        }
-        .dob-select:invalid, .dob-select option[value=""] { color: #888; }
-
-        /* BOTONES DE ACCIÓN */
-        .btn-submit {
-            background: var(--azul-rd); color: white; height: 60px; width: 100%;
-            font-size: 1.3rem; font-weight: 800; border: none; border-radius: 12px; 
-            cursor: pointer; margin-top: 10px; box-shadow: 0 8px 15px rgba(0,48,135,0.3); transition: 0.2s; 
-        }
-        .btn-submit:hover { background: var(--azul-claro); transform: scale(1.02); }
-
-        .btn-back-text {
-            background: none; border: none; color: #777; font-weight: 600; cursor: pointer;
-            margin-top: 15px; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-
-        /* SOCIAL BUTTONS */
-        .social-divider { text-align: center; margin: 1rem 0; color: #aaa; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
-        .social-divider::before, .social-divider::after { content: ""; flex: 1; height: 1px; background: #ddd; }
-        .social-buttons { display: flex; flex-direction: column; gap: 10px; }
-        
-        .social-btn {
-            width: 100%; height: 50px; border-radius: 12px; border: none; font-weight: 600; font-size: 0.95rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            font-family: 'Poppins', sans-serif; transition: 0.2s; position: relative;
-        }
-        .btn-google { background: white; color: #555; border: 2px solid #eee; }
-        .btn-google:hover { background: #f9f9f9; }
-        .btn-facebook { background: var(--color-facebook); color: white; }
-        .btn-facebook:hover { background: #135ec2; }
-        .btn-apple { background: var(--color-apple); color: white; }
-        .btn-apple:hover { background: #333; }
-        
-        .btn-back-home { margin-top: 20px; color: #666; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
-
-        @media (max-width: 600px) {
-            .auth-card { padding: 1.5rem; }
-            .brand-title { font-size: 2.2rem; }
-            .dob-grid { gap: 5px; }
-        }
-    </style>
+    <!-- Enlace al CSS externo -->
+    <link rel="stylesheet" href="/style/login.css">
 </head>
 <body>
 
@@ -170,7 +27,7 @@
 
         <!-- 1. FORMULARIO LOGIN -->
         <form id="formLogin" class="auth-form active-form" novalidate onsubmit="validarLogin(event)">
-            <label style="font-weight: bold; color: #003087; font-size: 1.1rem;">INICIAR SESIÓN</label>
+            <label class="form-title">INICIAR SESIÓN</label>
             
             <div id="loginAlert" class="alert-box">
                 <i class="fas fa-exclamation-circle"></i> Correo o contraseña incorrectos.
@@ -188,7 +45,7 @@
             
             <a onclick="mostrarRecuperacion()" class="forgot-pass-link">¿Olvidaste tu contraseña?</a>
             
-            <button type="submit" class="btn-submit">ENTRAR</button>
+            <button type="submit" class="btn-submit" onclick="loginExecute()">ENTRAR</button>
 
             <div class="social-divider">O continúa con</div>
             <div class="social-buttons">
@@ -200,8 +57,8 @@
 
         <!-- 2. FORMULARIO RECUPERACIÓN -->
         <form id="formRecovery" class="auth-form" onsubmit="procesarRecuperacion(event)">
-            <label style="font-weight: bold; color: #003087; font-size: 1.1rem; text-align:center;">RECUPERAR ACCESO</label>
-            <p style="text-align: center; color: #666; font-size: 0.9rem;">Ingresa tus datos y te enviaremos un enlace.</p>
+            <label class="form-title text-center">RECUPERAR ACCESO</label>
+            <p class="text-center-sub">Ingresa tus datos y te enviaremos un enlace.</p>
 
             <div class="input-wrapper">
                 <input type="text" id="recCedula" class="auth-input" placeholder="Cédula (Ej: 402-0000000-0)">
@@ -221,56 +78,39 @@
 
         <!-- 3. FORMULARIO REGISTRO -->
         <form id="formRegistro" class="auth-form" novalidate onsubmit="validarRegistro(event)">
-            <label style="font-weight: bold; color: #003087; font-size: 1.1rem;">REGISTRAR NUEVO USUARIO</label>
+            <label class="form-title">REGISTRAR NUEVO USUARIO</label>
             
             <div class="input-wrapper">
-                <input type="text" id="regNombre" class="auth-input" placeholder="Nombre Completo">
+                <input type="text" id="Nombre" class="auth-input" placeholder="Nombre Completo">
                 <small class="error-msg">Campo obligatorio.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="email" id="regEmail" class="auth-input" placeholder="Correo Electrónico">
+                <input type="text" id="dirrecion" class="auth-input" placeholder="dirrecion">
+                <small class="error-msg">campo obligatorio.</small>
+            </div>
+            
+            <div class="input-wrapper">
+                <input type="email" id="Email" class="auth-input" placeholder="Correo Electrónico">
                 <small class="error-msg">Formato inválido.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="password" id="regPass" class="auth-input" placeholder="Crear Contraseña">
+                <input type="password" id="contraseña" class="auth-input" placeholder="Crear Contraseña">
                 <small class="error-msg">Mínimo 4 caracteres.</small>
             </div>
             
             <div class="input-wrapper">
-                <input type="password" id="regConfirm" class="auth-input" placeholder="Confirmar Contraseña">
+                <input type="password" id="conConfirm" class="auth-input" placeholder="Confirmar Contraseña">
                 <small class="error-msg">No coinciden.</small>
             </div>
 
-            <!-- FECHA -->
-            <div class="dob-group">
-                <label class="dob-label">Fecha de Nacimiento</label>
-                <div class="dob-grid">
-                    <select id="regDia" class="dob-select" required>
-                        <option value="" disabled selected>Día</option>
-                        <script>for(let i=1;i<=31;i++){let v=i<10?'0'+i:i;document.write(`<option value="${v}">${v}</option>`);}</script>
-                    </select>
-                    <select id="regMes" class="dob-select" required>
-                        <option value="" disabled selected>Mes</option>
-                        <option value="01">Ene</option><option value="02">Feb</option><option value="03">Mar</option>
-                        <option value="04">Abr</option><option value="05">May</option><option value="06">Jun</option>
-                        <option value="07">Jul</option><option value="08">Ago</option><option value="09">Sep</option>
-                        <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dic</option>
-                    </select>
-                    <select id="regAno" class="dob-select" required>
-                        <option value="" disabled selected>Año</option>
-                        <script>const y=new Date().getFullYear();for(let i=y;i>=1930;i--)document.write(`<option value="${i}">${i}</option>`);</script>
-                    </select>
-                </div>
-            </div>
-
             <div class="input-wrapper">
-                <input type="tel" id="regTel" class="auth-input" placeholder="Teléfono">
+                <input type="tel" id="telefono" class="auth-input" placeholder="Teléfono">
                 <small class="error-msg">Campo obligatorio.</small>
             </div>
             <div class="input-wrapper">
-                <input type="text" id="regCedula" class="auth-input" placeholder="Cédula">
+                <input type="text" id="cedula" class="auth-input" placeholder="Cédula">
                 <small class="error-msg">Campo obligatorio.</small>
             </div>
             
@@ -286,129 +126,9 @@
 
     <a href="/index.html" class="btn-back-home"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // DETECTA LA URL AL CARGAR
-            const h = window.location.hash;
-            if(h === '#registro') {
-                cambiarTab('registro');
-            } else if(h === '#recuperar') {
-                setTimeout(() => mostrarRecuperacion(), 100); 
-            }
-        });
+    <!-- js -->
+    <script type="module" src="../jsforhtml/login.js"></script>
+    
 
-        // REFERENCIAS DOM
-        const tabsH = document.getElementById('authTabs');
-        const fLogin = document.getElementById('formLogin');
-        const fReg = document.getElementById('formRegistro');
-        const fRec = document.getElementById('formRecovery');
-
-        function cambiarTab(t) {
-            fRec.classList.remove('active-form'); 
-            tabsH.style.display='flex';
-            document.querySelectorAll('.input-error').forEach(e => e.classList.remove('input-error'));
-            document.getElementById('loginAlert').style.display='none';
-
-            if(t==='login'){
-                document.getElementById('tabLogin').classList.add('active'); 
-                document.getElementById('tabRegistro').classList.remove('active');
-                fLogin.classList.add('active-form'); fReg.classList.remove('active-form');
-            } else {
-                document.getElementById('tabRegistro').classList.add('active'); 
-                document.getElementById('tabLogin').classList.remove('active');
-                fReg.classList.add('active-form'); fLogin.classList.remove('active-form');
-            }
-        }
-
-        function mostrarRecuperacion() { 
-            fLogin.classList.remove('active-form'); 
-            tabsH.style.display='none'; 
-            fRec.classList.add('active-form'); 
-            document.getElementById('loginAlert').style.display='none';
-        }
-
-        function ocultarRecuperacion() { 
-            fRec.classList.remove('active-form'); 
-            tabsH.style.display='flex'; 
-            cambiarTab('login'); 
-        }
-
-        // ERRORES VISUALES
-        function err(i) { i.classList.add('input-error'); }
-        function clr(i) { i.classList.remove('input-error'); document.getElementById('loginAlert').style.display='none'; }
-        document.querySelectorAll('.auth-input').forEach(i => i.addEventListener('input', ()=>clr(i)));
-
-        // VALIDAR LOGIN
-        function validarLogin(e) {
-            e.preventDefault();
-            const em = document.getElementById('loginEmail');
-            const ps = document.getElementById('loginPass');
-            let fail = false;
-
-            if(!em.value.trim()){ err(em); fail=true; }
-            if(em.value && (!em.value.includes('@') || !em.value.includes('.'))){ err(em); fail=true; }
-            if(!ps.value.trim()){ err(ps); fail=true; }
-
-            if(fail) return;
-
-            if(em.value==='admin@mivoz.do' && ps.value==='123456'){
-                alert('Bienvenido'); 
-                window.location.href='index.html';
-            } else { 
-                document.getElementById('loginAlert').style.display='block'; 
-            }
-        }
-
-        // VALIDAR REGISTRO
-        function validarRegistro(e) {
-            e.preventDefault();
-            let fail=false;
-            const inputs = ['regNombre','regEmail','regPass','regConfirm','regTel','regCedula'];
-            
-            inputs.forEach(id => {
-                let el = document.getElementById(id); 
-                if(!el.value.trim()) { err(el); fail=true; }
-            });
-
-            const em = document.getElementById('regEmail');
-            if(em.value && (!em.value.includes('@')||!em.value.includes('.'))) { err(em); fail=true; }
-
-            const p1 = document.getElementById('regPass').value;
-            const p2 = document.getElementById('regConfirm');
-            if(p1 && p2.value && p1!==p2.value) { 
-                err(document.getElementById('regConfirm')); 
-                alert('Contraseñas no coinciden'); 
-                fail=true; 
-            }
-
-            if(!fail) { 
-                alert('Registro Exitoso'); 
-                cambiarTab('login'); 
-            }
-        }
-
-        // PROCESAR RECUPERACIÓN
-        function procesarRecuperacion(e) {
-            e.preventDefault();
-            const ced = document.getElementById('recCedula');
-            const em = document.getElementById('recEmail'); 
-            let fail = false;
-
-            if(!ced.value.trim()){ err(ced); fail=true; }
-            if(!em.value.trim() || !em.value.includes('@')){ err(em); fail=true; }
-
-            if(!fail){
-                const b = e.submitter; 
-                const txt = b.innerText; 
-                b.innerText='ENVIANDO...'; b.disabled=true;
-                
-                setTimeout(() => {
-                    alert(`Enlace enviado a ${em.value}`); 
-                    b.innerText=txt; b.disabled=false; 
-                    ocultarRecuperacion();
-                }, 1500);
-            }
-        }
-    </script>
 </body>
 </html>

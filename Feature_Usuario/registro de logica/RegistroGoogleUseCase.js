@@ -1,4 +1,4 @@
-export class LoginGoogleUseCase {
+export class RegistroGoogleUseCase {
   constructor(googleProvider) {
     this.googleProvider = googleProvider;
   }

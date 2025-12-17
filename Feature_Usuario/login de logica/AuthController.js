@@ -1,4 +1,4 @@
-class AuthController {
+export class AuthController {
   constructor(loginUseCase, loginGoogle, loginFacebook, loginApple) {
     this.loginUseCase = loginUseCase;
     this.loginGoogle = loginGoogle;
@@ -27,4 +27,3 @@ class AuthController {
   };
 }
 
-module.exports = AuthController;

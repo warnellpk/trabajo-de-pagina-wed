@@ -1,4 +1,4 @@
-export function esCedulaValida(cedula) {
+export function ResCedulaValida(cedula) {
   if (!cedula) return false;
 
   // Quitar todo lo que no sea número

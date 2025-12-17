@@ -1,4 +1,4 @@
-const Roles = {
+ export const Roles = {
   Normal: {
     permisos: {
       puedeIniciarSesion: true,
@@ -20,4 +20,4 @@ const Roles = {
   }
 };
 
-module.exports = Roles;
+

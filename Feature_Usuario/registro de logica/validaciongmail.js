@@ -1,4 +1,4 @@
-export function esCorreoValido(correo) {
+export function ResCorreoValido(correo) {
   if (!correo || typeof correo !== "string") return false;
 
   const limpio = correo.trim().toLowerCase();
