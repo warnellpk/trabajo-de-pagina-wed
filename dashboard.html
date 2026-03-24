@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estudio de Diseño - UserVix</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="dashboard-page">
+
+<header class="header">
+    <div class="logo">UserVix</div>
+    <nav>
+        <button onclick="toggleDarkMode()" id="darkBtn" class="btn-outline">🌙</button>
+        <a href="index.html">Inicio</a>
+        <a href="explorar-temas.html">Launchers</a>
+        <button onclick="logout()" class="btn-primary">Cerrar Sesión</button>
+    </nav>
+</header>
+
+<main class="vix-container">
+
+    <!-- SIDEBAR -->
+    <aside class="vix-sidebar">
+    <div class="profile-header">
+        <div class="avatar-glow">👤</div>
+        <h2>Usuario</h2>
+    </div>
+
+    <nav class="vix-menu">
+        <a href="solicitar-diseno.html">🎨 Solicitar Diseño</a>
+        <a href="#" onclick="toggleAccesibilidad()">♿ Accesibilidad</a>
+    </nav>
+</aside>
+
+    <!-- PANEL PRINCIPAL -->
+    <section class="vix-main">
+
+        <!-- HERO -->
+        <div class="vix-card-hero">
+            <h1>Panel de Transformación</h1>
+            <p>Diseña la estructura de tu dispositivo según tus necesidades reales.</p>
+        </div>
+
+        <!-- CHAT ASISTENTE -->
+        <div class="vix-chat-card">
+            <div class="chat-header">
+                <h3>💬 Asistente UserVix</h3>
+                <span>En línea</span>
+            </div>
+            <div class="chat-body" id="chatBody">
+                 <div class="bot-msg">
+                      ¡Hola! Cuéntanos qué necesitas. Podemos crear un tema para niños, adultos mayores o productividad.
+                 </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Ej: Tema para mi abuelo con botones grandes...">
+                <button class="btn-primary" onclick="enviarChat()">Enviar</button>
+            </div>
+        </div>
+
+        <!-- GRID DE TEMAS -->
+        <h2 class="section-title">Interfaces de Transformación</h2>
+        <div class="vix-grid">
+
+            <div class="vix-theme-card">
+                <div class="theme-image">
+                    <img src="explorar-temas-imagen-temas1.png" alt="SO Infantil">
+                    <div class="overlay-badge">Modo Kids</div>
+                </div>
+                <div class="theme-info">
+                    <div class="card-footer">
+                        <a href="" class="btn-action-sm">Descargar</a>
+                        <a href="explorar-temas.html" class="link-ver-mas">Ver más...</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vix-theme-card">
+                <div class="theme-image">
+                    <img src="explorar-temas-imagen-temas2.png" alt="SO Senior">
+                    <div class="overlay-badge">Modo Senior</div>
+                </div>
+                <div class="theme-info">
+                    <div class="card-footer">
+                        <a href="" class="btn-action-sm">Descargar</a>
+                        <a href="explorar-temas.html" class="link-ver-mas">Ver más...</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vix-theme-card">
+                <div class="theme-image">
+                    <img src="explorar-temas-imagen-temas3.png" alt="SO Minimal">
+                    <div class="overlay-badge">Modo Pro</div>
+                </div>
+                <div class="theme-info">
+                    <div class="card-footer">
+                        <a href="" class="btn-action-sm">Descargar</a>
+                        <a href="explorar-temas.html" class="link-ver-mas">Ver más...</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- NOTIFICACIÓN / ACCIÓN RÁPIDA -->
+        <div class="vix-notice">
+            <p><strong>💡 Libertad UserVix:</strong> Puedes volver a la interfaz original con un solo click.</p>
+            <button class="btn-primary" onclick="restablecerInterfaz()">Restablecer Interfaz</button>
+        </div>
+    </section>
+
+</main>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

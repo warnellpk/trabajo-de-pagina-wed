@@ -1,0 +1,169 @@
+/* DESCARGAS */
+
+/* 🔥 SOLO PARA PÁGINAS NORMALES */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f7fb;
+}
+body:not(.auth-page) {
+    padding-top: 68px;
+    
+}
+
+/* HEADER            (LA PARTE DE ARRIBA OSEA EL ENCABEZADO SUPERIOR)*/    
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: linear-gradient(90deg, #141e30, #243b55);
+    color: white;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    box-sizing: border-box;
+}
+.dark-mode .header {
+    background: #2a2a2a;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.auth a {
+    margin-left: 10px;
+}
+
+/*(Diseño Central (DISEÑO CUADRADO DE CARD, ETC))*/
+.download-header {
+    text-align: center;
+    padding: 40px;
+}
+
+.download-main {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 50px;
+}
+
+.download-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 250px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.btn-disabled {
+    background: gray;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    border-radius: 20px;
+}
+
+.install {
+    text-align: center;
+    padding: 50px;
+}
+
+.install ol {
+    display: inline-block;
+    text-align: left;
+}
+a {
+    text-decoration: none;
+}
+
+/* BOTONES */
+.btn-primary {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    line-height: normal;
+    
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+
+/* BOTON       (BOTON DE MODO OSCURO/BLANCO)*/
+.btn-outline {
+    background: #dec5c5 !important;    /* Fondo blanco sólido */
+    color: #141e30 !important;         /* Icono (luna/sol) oscuro */
+    border: none;
+    border: 2px solid white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    display: inline-block; /* Asegura que la transformación funcione bien */
+    transition: 0.3s ease; /* Transición suave para el movimiento */
+    cursor: pointer;
+
+}
+.btn-outline:hover {
+    transform: translateY(-5px); /* Se mueve 5px hacia arriba */
+    background: rgba(255, 255, 255, 0.1); /* Un pequeño brillo de fondo opcional */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra para resaltar la elevación */
+}
+
+/* 🌙 MODO OSCURO */
+.dark-mode {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+/* FOOTER (PARTE INFERIOR OSEA EL ENCABEZADO INFERIOR)*/
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #141e30;
+    color: white;
+}
+.dark-mode footer {
+    background: #2a2a2a;
+}
+
+/* CAJAS (DESCARGAS) */
+.dark-mode .download-card {
+    background: #434242;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

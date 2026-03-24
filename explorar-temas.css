@@ -1,0 +1,170 @@
+/* EXPLORAR-TEMAS */
+
+/* 🔥 SOLO PARA PÁGINAS NORMALES */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f7fb;
+}
+body:not(.auth-page) {
+    padding-top: 68px;
+    
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: linear-gradient(90deg, #141e30, #243b55);
+    color: white;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    box-sizing: border-box;
+}
+.dark-mode .header {
+    background: #2a2a2a;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav a {
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.auth a {
+    margin-left: 10px;
+}
+
+/* BOTON */
+.btn-outline {
+    background: #dec5c5 !important;
+    color: #141e30 !important;
+    border: none;
+    border: 2px solid white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+.btn-outline:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* 🌙 MODO OSCURO */
+.dark-mode {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 21px 20px;
+    background: #141e30;
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.dark-mode footer {
+    background: #2a2a2a;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* ESTILO DE LOS CARD */
+.gallery-header { 
+    text-align: center; 
+    padding: 60px 20px; 
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+/* IMÁGENES */
+.gallery-item img,
+.downloaded-card img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transition: 0.3s;
+}
+
+/* HOVER */
+.gallery-item img:hover,
+.downloaded-card img:hover { 
+    transform: translateY(-10px); 
+}
+
+/* GRID DESCARGADOS */
+.downloaded-themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+/* TITULOS */
+.section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 40px 0 20px;
+    color: #141e30; /* 👈 negro por defecto (modo claro) */
+}
+
+/* 🌙 TITULO EN MODO OSCURO */
+.dark-mode .section-title {
+    color: #ffffff;
+}
+
+/* 🌙 CARDS EN MODO OSCURO (MÁS RESALTADOS) */
+.dark-mode .gallery-item img,
+.dark-mode .downloaded-card img {
+    background: #434242;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.99); /* más profundidad */
+    filter: brightness(1.1) contrast(1.1); /* leve mejora visual */
+}
+
+
+/* 🌙 HOVER MÁS LLAMATIVO EN OSCURO */
+.dark-mode .gallery-item img:hover,
+.dark-mode .downloaded-card img:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+}
+
+
+
